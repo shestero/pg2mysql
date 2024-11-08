@@ -18,8 +18,6 @@ func NewMySQLDB(
 		User:            username,
 		Passwd:          password,
 		DBName:          database,
-		Net:             "tcp",
-		Addr:            fmt.Sprintf("%s:%d", host, port),
 		MultiStatements: true,
 		Params: map[string]string{
 			"charset":   "utf8",
@@ -27,7 +25,10 @@ func NewMySQLDB(
 		},
 		AllowNativePasswords: true,
 	}
-	if host[0] == '/' {
+	if s.Host[0] != '/'  {
+		config.Net = "tcp"
+		config.Addr = fmt.Sprintf("%s:%d", host, port),
+	} else
 		config.Net = "unix"
 		config.Addr = host
 	}
