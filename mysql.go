@@ -27,6 +27,10 @@ func NewMySQLDB(
 		},
 		AllowNativePasswords: true,
 	}
+	if host[0] == '/' {
+		config.Net = "unix"
+		config.Addr = host
+	}
 
 	return &mySQLDB{
 		dsn:    config.FormatDSN(),
